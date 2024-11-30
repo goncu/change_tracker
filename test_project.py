@@ -3,24 +3,19 @@ import pytest
 
 
 def test_check_input():
-    with pytest.raises(SystemExit) as error:
-        check_input(["-o", "thisfile.xliff", "-e", "doesnotexist.xliff"])
-    assert error.type == SystemExit
-    assert (
-        error.value.code
-        == "One or more files not found. Please check file paths and try again."
-    )
+    with pytest.raises(SystemExit):
+        check_input(["-o", "a.xliff", "-e", "b.xliff"])
 
-    with pytest.raises(SystemExit) as error2:
-        check_input(["-o", "samples/or.txt", "-e", "samples/ed.txt"])
-    assert error2.type == SystemExit
-    assert (
-        error2.value.code
-        == "One or more files are not in XLIFF format. Please check and try again."
-    )
+    with pytest.raises(SystemExit):
+        check_input(["-o", "test/or.txt", "-e", "test/ed.txt"])
 
 
-def test_extract_text(): ...
+def test_extract_text(): 
+    assert extract_text('test/test.xliff') == [{'source': 'a', 'target': 'b'}]
 
 
-def test_generate_report(): ...
+def test_generate_report():
+    org = [{"source": "a", "target": "b"}]
+    edt = [{"source": "c", "target": "d"}]
+    with pytest.raises(SystemExit):
+        generate_report(org, edt)

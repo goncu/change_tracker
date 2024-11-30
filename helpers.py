@@ -1,5 +1,6 @@
 from pathlib import Path
-
+from redlines import Redlines
+import xml.etree.ElementTree as ET
 import argparse
 import sys
 
@@ -9,7 +10,7 @@ def check_input(arguments):
     parser = argparse.ArgumentParser(
         prog="project.py",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        description="CHANGE TRACKER\n\nThis command line utility takes two files,\none with original translation and the other with edited translation,\nand generates a report with changes tracked in the same folder with the program.",
+        description="CHANGE TRACKER\n\nThis command line utility takes two files,\none with original translation and the other\nwith edited translation, and generates a report\nwith the name 'changes.html', showing both source\nand changes, if any, segment by segment,\nin a table format. The report is generated\nin the same folder with the program.",
     )
 
     # add arguments
@@ -21,7 +22,7 @@ def check_input(arguments):
         sys.exit(parser.print_help())
 
     # parse arguments
-    args = parser.parse_args(arguments)
+    args = parser.parse_args()
 
     # check for arguments validity
     if not Path(args.o).exists() or not Path(args.e).exists():
@@ -37,9 +38,41 @@ def check_input(arguments):
 
 
 def extract_text(file):
-    return 1, 2
+    # parse xml
+    tree = ET.parse(file)
+    root = tree.getroot()
+    trans_units = root.findall(".//trans-unit")
+    # list to hold source and translation text
+    text = []
+    # extract source and translation text from translation units and append them to the list.
+    for unit in trans_units:
+        source = unit.find("source")
+        target = unit.find("target")
+
+        text.append(
+            {
+                "source": source.text if source is not None else "",
+                "target": target.text if target is not None else "",
+            }
+        )
+    return text
 
 
-def generate_report(
-    source_from_original, source_from_edited, translation_original, translation_edited
-): ...
+def generate_report(original, edited):
+    # check if sources are identical
+    for org, edt in zip(original, edited):
+        if org["source"] != edt["source"]:
+            sys.exit(
+                "Sources do not match. Please make sure you are comparing correct files."
+            )
+    # check for differences and create html file
+    with open("changes.html", "w", encoding="utf-8") as file:
+        file.write(
+            f'<table border="1" align="center"><thead><tr><th>Source</th><th>Translation</th></tr></thead><tbody>'
+        )
+        for org, edt in zip(original, edited):
+            changes = Redlines(org["target"], edt["target"])
+            file.write(
+                f'<tr><td>{org["source"]}</td><td>{changes.output_markdown}</td>'
+            )
+        file.write("</tbody></table>")
