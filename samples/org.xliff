@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2">
+  <file source-language="en" target-language="tr" datatype="plaintext" original="sample.txt">
+    <body>
+      <trans-unit id="1">
+        <source>Hello, how are you?</source>
+        <target>Merhaba, nasılsınız?</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>I am fine, thank you.</source>
+        <target>İyiyim, teşekkür ederim.</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Have a nice day!</source>
+        <target>İyi günler dilerim!</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>What is your name?</source>
+        <target>Adınız nedir?</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>My name is John.</source>
+        <target>Benim adım John.</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Where are you from?</source>
+        <target>Nerelisiniz?</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>I am from Turkey.</source>
+        <target>Ben Türkiye'denim.</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>Do you speak English?</source>
+        <target>İngilizce konuşuyor musunuz?</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Yes, a little.</source>
+        <target>Evet, biraz.</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Goodbye!</source>
+        <target>Hoşça kalın!</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
