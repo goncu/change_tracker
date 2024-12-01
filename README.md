@@ -4,43 +4,48 @@
 
 ## Introduction
 
-Change Tracker is a Python command-line program utility designed to compare two XLIFF (XML-based bilingual files used in localization) files: one containing the original translation and the other containing an edited translation. The program generates an HTML report that shows the differences between two translations. The changes are displayed segment by segment; deletions are shown in red and with strikethrough, additions are shown in green. It is useful for seeing at a glance the changes made in a given translation.
+Change Tracker is a Python command-line program designed to compare two XLIFF (XML-based bilingual files used in localization) files: one containing the original translation and the other containing an edited translation. The program generates an HTML report that shows the differences between two translations. The changes are displayed segment by segment; deletions are shown in red and with strikethrough, additions are shown in green. It is useful for seeing at a glance the changes made in a given translation.
 
 ## Features
 
 **Compare original and edited translations**: The program compares two XLIFF files, extracting the source (original) and target (translated) texts from them.
 
-**HTML report generation**: The differences between the translations are displayed in an HTML table format. Each translation segment is displayed alongside the source text and with the changes highlighted.
+**HTML report generation**: The differences between translations are displayed in an HTML table format. Each translation segment is displayed alongside the source text and with the changes highlighted.
 
-**Command-line interface**: The utility accepts two command-line arguments: the paths to the original and edited translation files.
+**Command-line interface**: The program accepts two command-line arguments: the paths to the original and edited translation files.
 
 **XLIFF support**: At the moment, only XLIFF files are supported.
 
 ## Program Workflow
 
-### Step 1: Input Validation
+### Step 1: Validating Input
 
-The program validates the provided file paths using the `check_input` function. It checks that:
+The program validates the provided file paths using the `check_input` function. This function takes `sys.argv` as input and checks that:
 
 - The files exist at the specified paths.
 - Both files have the .xliff extension.
 - If any validation fails, an appropriate error message is displayed, and the program exits.
+- Returns both file paths.
 
 ### Step 2: Extracting Text
 
-The program then extracts source and target texts from both the original and edited XLIFF files using the `extract_text` function. This function:
+The program then extracts source and target texts from both the original and edited files using the `extract_text` function. This function:
 
-- Parses the XLIFF files using Python's xml.etree.ElementTree library.
+- Takes one of the file paths returned by `check_input` as input (so it is called twice, first time for the original file, and the second time for the edited file).
+- Parses the XLIFF file using Python's xml.etree.ElementTree library.
 - Extracts all `<trans-unit>` elements, which contain the source and target text.
 - Stores the extracted text in a list of dictionaries, where each dictionary contains a `source` key for the original text and a `target` key for the translated text.
+- Returns the dictionary.
 
 ### Step 3: Comparing Translations
 
-After extracting the text, the program compares the original and edited translations using the `generate_report` function. The function:
+After extracting the text, the program compares the original and edited translations using the `generate_report` function. This function:
 
+- Takes both dictionaries returned by `extract_text` calls as input.
 - Checks if the source segments in the original and edited files are identical. If they do not match, the program exits with an error message.
 - Uses redlines library to track changes between the original and edited translations.
 - Writes the changes, along with the source, into an HTML file (changes.html).
+- Returns `True` for testing purposes.
 
 ### Step 4: HTML Report Generation
 
@@ -55,7 +60,7 @@ The HTML report is generated in a table format, with two columns:
 
 ## Requirements
 
-Before using this program, ensure that Python is installed on your system along with the required dependencies. The following libraries are necessary:
+Before using this program, ensure that Python is installed on your system along with the required dependencies. The following libraries are used:
 
 **argparse**: Used for parsing command-line arguments.
 
