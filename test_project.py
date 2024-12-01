@@ -1,4 +1,4 @@
-from helpers import check_input, extract_text, generate_report
+from project import check_input, extract_text, generate_report
 import pytest
 
 
