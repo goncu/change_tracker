@@ -76,3 +76,4 @@ def generate_report(original, edited):
                 f'<tr><td>{org["source"]}</td><td>{changes.output_markdown}</td>'
             )
         file.write("</tbody></table>")
+    return True

@@ -15,7 +15,13 @@ def test_extract_text():
 
 
 def test_generate_report():
-    org = [{"source": "a", "target": "b"}]
-    edt = [{"source": "c", "target": "d"}]
+    org1 = [{"source": "a", "target": "b"}]
+    edt1 = [{"source": "c", "target": "d"}]
     with pytest.raises(SystemExit):
-        generate_report(org, edt)
+        generate_report(org1, edt1)
+
+    org2 = [{"source": "a", "target": "b"}]
+    edt2 = [{"source": "a", "target": "c"}]
+
+    assert generate_report(org2, edt2)
+
