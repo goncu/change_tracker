@@ -20,18 +20,19 @@ Change Tracker is a Python command-line program designed to compare two XLIFF (X
 
 ### Step 1: Validating Input
 
-The program validates the provided file paths using the `check_input` function. This function takes `sys.argv` as input and checks that:
+The program validates the provided file paths using the `check_input` function. This function:
 
-- The files exist at the specified paths.
-- Both files have the .xliff extension.
-- If any validation fails, an appropriate error message is displayed, and the program exits.
+- Takes `sys.argv` as input.
+- Checks that the files exist at the specified paths.
+- Checks that both files have the .xliff extension.
+- Displays an error message if any validation fails, and exits the program.
 - Returns both file paths.
 
 ### Step 2: Extracting Text
 
 The program then extracts source and target texts from both the original and edited files using the `extract_text` function. This function:
 
-- Takes one of the file paths returned by `check_input` as input (so it is called twice, first time for the original file, and the second time for the edited file).
+- Takes one of the file paths returned by `check_input`, as input (so it is called twice, first time for the original file, and the second time for the edited file).
 - Parses the XLIFF file using Python's xml.etree.ElementTree library.
 - Extracts all `<trans-unit>` elements, which contain the source and target text.
 - Stores the extracted text in a list of dictionaries, where each dictionary contains a `source` key for the original text and a `target` key for the translated text.
@@ -41,11 +42,11 @@ The program then extracts source and target texts from both the original and edi
 
 After extracting the text, the program compares the original and edited translations using the `generate_report` function. This function:
 
-- Takes both dictionaries returned by `extract_text` calls as input.
+- Takes both dictionaries returned by `extract_text` calls, as input.
 - Checks if the source segments in the original and edited files are identical. If they do not match, the program exits with an error message.
 - Uses redlines library to track changes between the original and edited translations.
-- Writes the changes, along with the source, into an HTML file (changes.html).
-- Returns `True` for testing purposes.
+- Writes the changes, along with the source, into an HTML file (`changes.html`).
+- Returns `True` (for testing purposes).
 
 ### Step 4: HTML Report Generation
 
@@ -53,6 +54,8 @@ The HTML report is generated in a table format, with two columns:
 
 - Source: Original source text.
 - Translation: Translation with any changes between original and edited translation highlighted.
+
+Generated file can be found in the program folder.
 
 #### Example:
 
@@ -120,7 +123,7 @@ Example:
 python project.py -o original.xliff -e edited.xliff
 ```
 
-This command will compare original.xliff with the edited.xliff and generate a report called changes.html in program's root folder.
+This command will compare original.xliff with the edited.xliff and generate a report called `changes.html` in program's root folder.
 
 ## Testing
 
